@@ -1,0 +1,11 @@
+{
+  "name": "react-template-project",
+  "version": "0.0.1",
+  "description": "react boilerplate using webpack5 and swc",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Muhammad Usman",
+  "license": "ISC"
+}
