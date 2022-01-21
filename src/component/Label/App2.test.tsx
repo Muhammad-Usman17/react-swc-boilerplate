@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import App2 from './index.js';
+import Label from './index';
 
 test('Header contains correct text', () => {
-  render(<App2 />);
-  const text = screen.getByText('My React and TypeScript App!2');
+  render(<Label />);
+  const text = screen.getByText('Webpack5, SWC, React and TypeScript BoilerPlate!');
   expect(text).toBeInTheDocument();
 });
