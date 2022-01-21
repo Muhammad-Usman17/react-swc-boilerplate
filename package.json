@@ -2,11 +2,13 @@
   "name": "react-template-project",
   "version": "0.0.1",
   "description": "react boilerplate using webpack5 and swc",
-  "main": "index.js",
   "scripts": {
     "start": "webpack serve --config \"./webpack/webpack.dev.config.ts\"",
     "build": "webpack --config webpack/webpack.prod.config.ts",
-    "test": "jest"
+    "test": "jest",
+    "prettier": "prettier --check src/**/*.{js,jsx,tsx,ts}  --config .prettierrc",
+    "lint": "eslint  \"./src/**\" --cache --report-unused-disable-directives",
+    "lint:fix": "eslint  ./src/**  --cache --fix"
   },
   "author": "Muhammad Usman",
   "license": "ISC",
@@ -19,21 +21,50 @@
     "@swc/jest": "^0.2.17",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
+    "@testing-library/react-hooks": "^7.0.2",
     "@types/jest": "^27.4.0",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
     "@types/webpack-dev-server": "^4.7.2",
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^5.10.0",
     "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^10.2.1",
+    "eslint": "^8.7.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^16.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-webpack-plugin": "^3.1.1",
     "fork-ts-checker-webpack-plugin": "^6.5.0",
     "html-webpack-plugin": "^5.5.0",
+    "husky": "^7.0.4",
     "jest": "^27.4.7",
+    "lint-staged": "^12.2.2",
     "path": "^0.12.7",
+    "prettier": "^2.5.1",
     "swc-loader": "^0.1.15",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4",
     "webpack": "^5.66.0",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.7.3"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint  \"./src/**\" --cache --report-unused-disable-directives --max-warnings 0",
+      "npx prettier --write",
+      "cross-env CI=true react-scripts test --env=jest-environment-jsdom-sixteen --findRelatedTests",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

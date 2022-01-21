@@ -1,40 +1,55 @@
-import path from "path";
-import webpack from "webpack";
-import HtmlWebpackPlugin from "html-webpack-plugin";
+import path from 'path';
+import webpack from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import ESLintPlugin from 'eslint-webpack-plugin';
 
 const config = {
-  mode: "development",
+  mode: 'development',
   output: {
-    publicPath: "/",
+    publicPath: '/',
   },
-  entry: "./src/index.tsx",
+  entry: './src/index.tsx',
   module: {
     rules: [
       {
         test: /\.([jt]sx?)?$/,
-        use: "swc-loader",
+        use: 'swc-loader',
         exclude: /node_modules/,
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        type: 'asset/resource',
+      },
+      {
+        test: /\.(woff2|ttf|woff|eot)$/,
+        type: 'asset/resource',
       },
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: ['.tsx', '.ts', '.js'],
     alias: {
-      aliasFields: ["browser"],
-      Components: path.resolve(__dirname, "../src/component/"),
+      aliasFields: ['browser'],
+      Components: path.resolve(__dirname, '../src/component/'),
     },
   },
   plugins: [
+    new webpack.ProgressPlugin(),
+    new ESLintPlugin({
+      extensions: ['js', 'jsx', 'ts', 'tsx'],
+      fix: true,
+      emitWarning: true,
+    }),
     new HtmlWebpackPlugin({
-      template: "src/index.html",
+      template: 'src/index.html',
     }),
     new webpack.HotModuleReplacementPlugin(),
   ],
-  devtool: "inline-source-map",
+  devtool: 'inline-source-map',
   devServer: {
-    static: path.join(__dirname, "build"),
+    static: { directory: path.join(__dirname, '../', 'public') },
     historyApiFallback: true,
-    port: 4000,
+    port: 3000,
     open: true,
     hot: true,
   },
