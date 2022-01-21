@@ -6,6 +6,8 @@ import ESLintPlugin from 'eslint-webpack-plugin';
 const config = {
   mode: 'development',
   output: {
+    filename: '[name].js',
+    chunkFilename: '[name].js',
     publicPath: '/',
   },
   entry: './src/index.tsx',
@@ -30,7 +32,7 @@ const config = {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
       aliasFields: ['browser'],
-      Components: path.resolve(__dirname, '../src/component/'),
+      Components: path.resolve(__dirname, '../', 'src/component/'),
     },
   },
   plugins: [

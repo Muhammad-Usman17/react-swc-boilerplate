@@ -1,10 +1,12 @@
 import path from 'path';
+import webpack from 'webpack';
 import { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import webpack from 'webpack';
 import ESLintPlugin from 'eslint-webpack-plugin';
+import CompressionPlugin from 'compression-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
 const config: Configuration = {
@@ -12,8 +14,16 @@ const config: Configuration = {
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, '../', 'build'),
-    filename: '[name].[contenthash].js',
-    publicPath: '/',
+    filename: 'js/[name].[contenthash].js',
+    chunkFilename: `js/[name].[chunkhash].js`,
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+    splitChunks: {
+      chunks: 'all',
+    },
+    runtimeChunk: false,
   },
   module: {
     rules: [
@@ -44,6 +54,10 @@ const config: Configuration = {
     }),
     new ESLintPlugin({
       extensions: ['js', 'jsx', 'ts', 'tsx'],
+    }),
+    new CompressionPlugin({
+      test: /\.js(\?.*)?$/i,
+      algorithm: 'gzip',
     }),
     new CleanWebpackPlugin(),
   ],
